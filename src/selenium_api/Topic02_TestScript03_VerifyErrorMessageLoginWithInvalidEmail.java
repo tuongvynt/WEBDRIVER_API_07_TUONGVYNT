@@ -4,13 +4,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Topic02_TestScript01_VerifyURLandTitle {
+public class Topic02_TestScript03_VerifyErrorMessageLoginWithInvalidEmail {
 	WebDriver driver;
 
 	@Test
@@ -21,17 +22,18 @@ public class Topic02_TestScript01_VerifyURLandTitle {
 		// Click on Account button
 		driver.findElement(By.xpath("//span[@class=\"label\" and contains(text(), 'Account')]")).click();
 		driver.findElement(By.linkText("My Account")).click();
-		driver.findElement(By.xpath("//a[@title='Create an Account']")).click();;
 		
-		//Click back verify loginUrl
-		driver.navigate().back();
-		String loginPageUrl = driver.getCurrentUrl();
-		Assert.assertEquals(loginPageUrl,"http://live.guru99.com/index.php/customer/account/login/");
+		// Enter invalid Email
+		WebElement element = driver.findElement(By.name("login[username]"));
+		element.click();
+		element.clear();
+		element.sendKeys("automation@gmail.com");
+		driver.findElement(By.xpath("//button[@title='Login']")).click();
 		
-		//Click forward and verify Create account Url
-		driver.navigate().forward();
-		String createAccountPageUrl = driver.getCurrentUrl();
-		Assert.assertEquals(createAccountPageUrl,"http://live.guru99.com/index.php/customer/account/create/");
+		//Verify Error message
+		String stringErrorMessage = driver.findElement(By.id("advice-validate-email-email")).getText();
+		Assert.assertEquals(stringErrorMessage,"Please enter a valid email address. For example johndoe@domain.com.");
+
 	}
 
 	@BeforeClass

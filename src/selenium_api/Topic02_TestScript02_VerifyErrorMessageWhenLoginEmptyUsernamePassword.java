@@ -10,7 +10,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Topic02_TestScript01_VerifyURLandTitle {
+public class Topic02_TestScript02_VerifyErrorMessageWhenLoginEmptyUsernamePassword {
 	WebDriver driver;
 
 	@Test
@@ -21,17 +21,15 @@ public class Topic02_TestScript01_VerifyURLandTitle {
 		// Click on Account button
 		driver.findElement(By.xpath("//span[@class=\"label\" and contains(text(), 'Account')]")).click();
 		driver.findElement(By.linkText("My Account")).click();
-		driver.findElement(By.xpath("//a[@title='Create an Account']")).click();;
+		driver.findElement(By.xpath("//button[@title='Login']")).click();
 		
-		//Click back verify loginUrl
-		driver.navigate().back();
-		String loginPageUrl = driver.getCurrentUrl();
-		Assert.assertEquals(loginPageUrl,"http://live.guru99.com/index.php/customer/account/login/");
+		//Verify
+		String stringErrorMessage = driver.findElement(By.id("advice-required-entry-email")).getText();
+		Assert.assertEquals(stringErrorMessage,"This is a required field.");
 		
-		//Click forward and verify Create account Url
-		driver.navigate().forward();
-		String createAccountPageUrl = driver.getCurrentUrl();
-		Assert.assertEquals(createAccountPageUrl,"http://live.guru99.com/index.php/customer/account/create/");
+		//Verify 
+		String stringErrorMessagePass = driver.findElement(By.id("advice-required-entry-pass")).getText();
+		Assert.assertEquals(stringErrorMessagePass,"This is a required field.");
 	}
 
 	@BeforeClass
