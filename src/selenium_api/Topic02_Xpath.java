@@ -19,6 +19,9 @@ public class Topic02_Xpath {
 
 	@Test
 	public void TestScript01_VerifyURLandTitle() {
+		//driver = new FirefoxDriver();
+		driver.get("http://live.guru99.com");
+		
 		String homePageTitle = driver.getTitle();
 		Assert.assertEquals(homePageTitle, "Home page");
 		
@@ -40,6 +43,8 @@ public class Topic02_Xpath {
 	
 	@Test
 	public void TestScript02_VerifyErrorMessageWhenLoginEmptyUsernamePassword() {
+		//driver = new FirefoxDriver();
+		driver.get("http://live.guru99.com");
 		String homePageTitle = driver.getTitle();
 		Assert.assertEquals(homePageTitle, "Home page");
 		
@@ -59,6 +64,34 @@ public class Topic02_Xpath {
 	
 	@Test
 	public void TestScript03_VerifyErrorMessageLoginWithInvalidEmail() {
+		
+		//driver = new FirefoxDriver();
+		driver.get("http://live.guru99.com");
+		String homePageTitle = driver.getTitle();
+		Assert.assertEquals(homePageTitle, "Home page");
+		
+		// Click on Account button
+		driver.findElement(By.xpath("//span[@class=\"label\" and contains(text(), 'Account')]")).click();
+		driver.findElement(By.linkText("My Account")).click();
+		
+		// Enter invalid Email
+		WebElement element = driver.findElement(By.name("login[username]"));
+		element.click();
+		element.clear();
+		element.sendKeys("123123213@1232.13");
+		driver.findElement(By.xpath("//button[@title='Login']")).click();
+		
+		//Verify Error message
+		String stringErrorMessage = driver.findElement(By.id("advice-validate-email-email")).getText();
+		Assert.assertEquals(stringErrorMessage,"Please enter a valid email address. For example johndoe@domain.com.");
+
+	}
+	
+	@Test
+	public void TestScript04_VerifyErrorMessageLoginWithPasswordlessthan6Char() {
+		
+		//driver = new FirefoxDriver();
+		driver.get("http://live.guru99.com");
 		String homePageTitle = driver.getTitle();
 		Assert.assertEquals(homePageTitle, "Home page");
 		
@@ -73,14 +106,24 @@ public class Topic02_Xpath {
 		element.sendKeys("automation@gmail.com");
 		driver.findElement(By.xpath("//button[@title='Login']")).click();
 		
+		// Enter invalid Email
+		WebElement elementPass = driver.findElement(By.id("pass"));
+		elementPass.click();
+		elementPass.clear();
+		elementPass.sendKeys("123");
+		driver.findElement(By.xpath("//button[@title='Login']")).click();
+		
 		//Verify Error message
-		String stringErrorMessage = driver.findElement(By.id("advice-validate-email-email")).getText();
-		Assert.assertEquals(stringErrorMessage,"Please enter a valid email address. For example johndoe@domain.com.");
+		String stringErrorMessage = driver.findElement(By.id("advice-validate-password-pass")).getText();
+		Assert.assertEquals(stringErrorMessage,"Please enter 6 or more characters without leading or trailing spaces.");
 
 	}
 	
 	@Test
-	public void TestScript04_VerifyErrorMessageLoginWithInvalidPass() {
+	public void TestScript05_VerifyErrorMessageLoginWithIncorrectPass() {
+		
+		//driver = new FirefoxDriver();
+		driver.get("http://live.guru99.com");
 		String homePageTitle = driver.getTitle();
 		Assert.assertEquals(homePageTitle, "Home page");
 		
@@ -88,20 +131,31 @@ public class Topic02_Xpath {
 		driver.findElement(By.xpath("//span[@class=\"label\" and contains(text(), 'Account')]")).click();
 		driver.findElement(By.linkText("My Account")).click();
 		
-		// Enter invalid Email
-		WebElement element = driver.findElement(By.id("pass"));
+
+		// Enter valid Email
+		WebElement element = driver.findElement(By.name("login[username]"));
 		element.click();
 		element.clear();
-		element.sendKeys("123");
+		element.sendKeys("automation@gmail.com");
+		driver.findElement(By.xpath("//button[@title='Login']")).click();
+		
+		// Enter incorrect password
+		WebElement elementPass = driver.findElement(By.id("pass"));
+		elementPass.click();
+		elementPass.clear();
+		elementPass.sendKeys("123123123");
 		driver.findElement(By.xpath("//button[@title='Login']")).click();
 		
 		//Verify Error message
-		String stringErrorMessagePass = driver.findElement(By.id("advice-validate-password-pass")).getText();
-		Assert.assertEquals(stringErrorMessagePass,"Please enter 6 or more characters without leading or trailing spaces.");
+		String stringErrorMessagePass = driver.findElement(By.xpath("//li[@class=\"error-msg\"]//span")).getText();
+		Assert.assertEquals(stringErrorMessagePass,"Invalid login or password.");
 	}
 	
 	@Test
-	public void TestScript05_CreateAccountSuccessfully() {
+	public void TestScript06_CreateAccountSuccessfully() {
+		
+		//driver = new FirefoxDriver();
+		driver.get("http://live.guru99.com");
 		
 		// Click on Account button
 		driver.findElement(By.xpath("//span[@class=\"label\" and contains(text(), 'Account')]")).click();
@@ -155,8 +209,8 @@ public class Topic02_Xpath {
 		// Need to update
 		//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		//Verify Home page
-		String homePageTitle = driver.getTitle();
-		Assert.assertEquals(homePageTitle, "Home page");
+		//String homePageTitle = driver.getTitle();
+		//Assert.assertEquals(homePageTitle, "Home page");
 		
 		
 	}
@@ -167,8 +221,6 @@ public class Topic02_Xpath {
 		System.setProperty("webdriver.chrome.driver", ".\\lib\\chromedriver.exe");
 		driver = new ChromeDriver();
 
-		//driver = new FirefoxDriver();
-		driver.get("http://live.guru99.com");
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
