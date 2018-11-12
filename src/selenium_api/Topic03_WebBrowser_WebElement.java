@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 public class Topic03_WebBrowser_WebElement {
 	WebDriver driver;
+	// Elements are enabled
 	By emailByTextbox = By.xpath("//input[@id='mail']");
 	By educationByTextarea = By.xpath("//textarea[@id='edu']");
 	By ageUnder18ByRadio = By.xpath("//input[@id='under_18']");
@@ -21,7 +22,8 @@ public class Topic03_WebBrowser_WebElement {
 	By interestsDevelopmentByCheckbox = By.xpath("//input[@id='development']");
 	By silder01ByRange = By.xpath("//input[@id='slider-1']");
 	By buttonIsEnabledByButton = By.xpath("//button[@id='button-enabled']");
-
+	
+	// Elements are disabled
 	By passwordByTextbox = By.xpath("//input[@id='password']");
 	By ageIsDisabledByRadio = By.xpath("//input[@id='radio-disabled']");
 	By biographyByTextarea = By.xpath("//textarea[@id='bio']");
