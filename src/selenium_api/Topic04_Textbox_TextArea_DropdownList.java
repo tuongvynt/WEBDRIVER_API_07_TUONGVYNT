@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -17,7 +18,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Topic04_Textbox_TextArea {
+public class Topic04_Textbox_TextArea_DropdownList {
 
 	// Variable declaration
 	WebDriver driver;
@@ -247,6 +248,13 @@ public class Topic04_Textbox_TextArea {
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='app']//div//li[@class=\"dropdown-toggle\" and contains(text(),\"Third Option\")]")).isDisplayed());
 		Thread.sleep(3000);
 		
+		//Editable: http://indrimuska.github.io/jquery-editable-select/
+		 driver.get("http://indrimuska.github.io/jquery-editable-select/");
+		 driver.findElement(By.xpath("//div[@id='default-place']/input")).sendKeys("Ford");
+		 driver.findElement(By.xpath("//div[@id='default-place']/input")).sendKeys(Keys.TAB);
+		 Thread.sleep(3000);
+		 Assert.assertEquals(driver.findElement(By.xpath(".//*[@id='default-place']/ul/li[text()=\"Ford\"]")).getAttribute("class"), "es-visible selected");
+		 Thread.sleep(3000);
 	}
 
 	public void selectItemInCustomDropdown(String scrolltoXpath, String parentXpath, String childXpath, String expectedItem) {
