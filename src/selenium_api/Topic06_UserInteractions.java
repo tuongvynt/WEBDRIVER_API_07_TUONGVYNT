@@ -3,15 +3,20 @@ package selenium_api;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,9 +26,8 @@ public class Topic06_UserInteractions {
 
 	// Variable declaration
 	WebDriver driver;
-	Alert alert;
-	String name = "Nguyen Thi Tuong Vy";
-	By resultMessage = By.xpath("//p[@id='result']");
+	Actions action;
+	WebDriverWait wait;
 
 	@BeforeClass
 	public void beforeClass() {
@@ -32,142 +36,123 @@ public class Topic06_UserInteractions {
 		// driver = new ChromeDriver();
 
 		driver = new FirefoxDriver();
+		wait = new WebDriverWait(driver, 20);
+		action = new Actions(driver);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-	@Test
-	public void TetScript01() {
-		// Navigate to page
-		navigateToPage("http://live.guru99.com/");
-		WebElement element = driver.findElement(By.xpath("//div[@ class='footer']//a[@title='My Account']"));
-		
-		// Click on Account
-		Commons.clickElementByJavascript(driver, element);
-		Assert.assertEquals(driver.getCurrentUrl(), "http://live.guru99.com/index.php/customer/account/login/");
-		WebElement elementAccount = driver.findElement(By.xpath("//a[@title='Create an Account']"));
-		
-		// Click on Create an Account
-		Commons.clickElementByJavascript(driver, elementAccount);
-		Assert.assertEquals(driver.getCurrentUrl(), "http://live.guru99.com/index.php/customer/account/create/");
-	}
 	
 	@Test
-	public void TetScript02() {
-		// Navigate to page
-		navigateToPage("http://demos.telerik.com/kendo-ui/styling/checkboxes");
-		
-		// Click to Dual-zone air conditioning
-		WebElement dualZoneCheckbox = driver.findElement(By.xpath("//label[text()='Dual-zone air conditioning']/preceding-sibling::input"));
-		Commons.clickElementByJavascript(driver, dualZoneCheckbox);
-		Assert.assertTrue(dualZoneCheckbox.isSelected());
-		
-		// Uncheck
-		Commons.clickElementByJavascript(driver, dualZoneCheckbox);
-		
-		// Verify after uncheck
-		Assert.assertFalse(dualZoneCheckbox.isSelected());
+	public void TC01_moveMouseToElement() throws InterruptedException {
 
+		// Step 01 - Navigate to http://www.myntra.com/
+		navigateToPage("http://www.myntra.com/");
+
+		// Step 02 - Hover on Menu
+		action = new Actions(driver);
+		WebElement elementUser = driver.findElement(By.xpath("//div[@class='desktop-user']"));
+		WebElement logIn = driver.findElement(By.xpath("//a[text()='login']"));
+		action.moveToElement(elementUser).perform();
+		Thread.sleep(3000);
+
+		// Step 03 - Chọn Login button
+		Assert.assertTrue((logIn).isDisplayed());
+		logIn.click();
+
+		// Step 04 - Verify Login form is displayed
+		Assert.assertTrue(driver.findElement(By.xpath("//p[text()='Login to Myntra']")).isDisplayed());
 	}
 
 	@Test
-	public void TetScript03 () throws InterruptedException {
-		navigateToPage("http://demos.telerik.com/kendo-ui/styling/radios");
-
-		By Petrol2d0ByRadio = By.xpath("//label[contains(text(),'2.0 Petrol')]/preceding-sibling::input");
-		By Petrol1d8ByRadio = By.xpath("//label[contains(text(),'1.8 Petrol')]/preceding-sibling::input");
-		WebElement Petrol2d0ByRadioElement = driver.findElement(Petrol2d0ByRadio);
-		WebElement Petrol1d8ByRadioElement = driver.findElement(Petrol1d8ByRadio);
+	public void TC02_clickHold() {
+		// Step 01 - Navigate to http://jqueryui.com/resources/demos/selectable/display-grid.html
+		navigateToPage("http://jqueryui.com/resources/demos/selectable/display-grid.html");
+		List<WebElement> listItem = driver.findElements(By.xpath("//ol[@id='selectable']/li"));
+		wait.until(ExpectedConditions.visibilityOfAllElements(listItem));
+		action.clickAndHold(listItem.get(0)).moveToElement(listItem.get(3)).release().perform();
 		
-		// Step 02 - Click vào radiobutton:  2.0
-		Commons.clickElementByJavascript(driver, Petrol2d0ByRadioElement);
-		Thread.sleep(1000);
+		// Verify
+		List<WebElement> itemSelected = driver.findElements(By.xpath("//ol[@id='selectable']/li[contains(@class,'ui-selected')]"));
+		int numberSelected = itemSelected.size();
+		Assert.assertEquals(numberSelected, 4);
 		
-		//Step 03 - Kiểm tra radio button đó đã chọn hay chưa/ nếu chưa chọn lại
-		Assert.assertTrue(Petrol2d0ByRadioElement.isSelected());
+		// Reload page
+		driver.navigate().refresh();
 		
-		// Uncheck 2.0
-		Commons.clickElementByJavascript(driver, Petrol1d8ByRadioElement);
+		// CLick on random elements
+		List<WebElement> numberRandom = driver.findElements(By.xpath("//ol[@id='selectable']/li"));
+		action.keyDown(Keys.CONTROL).build().perform();
+		numberRandom.get(0).click();
+		numberRandom.get(3).click();
+		numberRandom.get(2).click();
+		numberRandom.get(5).click();
+		numberRandom.get(8).click();
+		action.keyUp(Keys.CONTROL).build().perform();
 		
-		// Verify checkbox 2.0 is unselected
-		Assert.assertFalse(Petrol2d0ByRadioElement.isSelected());
-		
-		// Verify checkbox 1.8 is selected
-		Assert.assertTrue(Petrol1d8ByRadioElement.isSelected());
-
+		// Verify
+		List<WebElement> itemSelectedRan = driver.findElements(By.xpath("//ol[@id='selectable']/li[contains(@class,'ui-selected')]"));
+		int numberSelectedRan = itemSelectedRan.size();
+		Assert.assertEquals(numberSelectedRan, 5);
 	}
 
 	@Test
-	public void TetScript04 () throws InterruptedException {
-		// Navigate to page
-		navigateToPage("https://daominhdam.github.io/basic-form/index.html");
+	public void TC03_doubleClick() {
+		// Step 01 - Navigate to http://www.seleniumlearn.com/double-click
+		navigateToPage("http://www.seleniumlearn.com/double-click");
 		
-		// Click on button
-		driver.findElement(By.xpath("//button[text()='Click for JS Alert']")).click();
-		alert = driver.switchTo().alert();
-		Thread.sleep(1000);
-		Assert.assertEquals(alert.getText(), "I am a JS Alert");
-		// Click on ok
+		// Double click on button
+		WebElement doubleClickButton = driver.findElement(By.xpath("//button[text()='Double-Click Me!']"));
+		action.doubleClick(doubleClickButton).perform();
+		Alert alert = driver.switchTo().alert();
+		alert.getText();
+		Assert.assertEquals(alert.getText(), "The Button was double-clicked.");
 		alert.accept();
-		Assert.assertEquals(driver.findElement(resultMessage).getText(), "You clicked an alert successfully");
-		
-	}
-	@Test
-	public void TetScript05 () throws InterruptedException {
-		// Navigate to page
-		navigateToPage("https://daominhdam.github.io/basic-form/index.html");
-		
-		// Click on button
-		driver.findElement(By.xpath("//button[text()='Click for JS Confirm']")).click();
-		alert = driver.switchTo().alert();
-		Thread.sleep(1000);
-		Assert.assertEquals(alert.getText(), "I am a JS Confirm");
-		// Click on Cancel
-		alert.dismiss();
-		
-		// Verify message
-		Assert.assertEquals(driver.findElement(resultMessage).getText(), "You clicked: Cancel");
-		
-	}
-	@Test
-	public void TetScript06 () throws InterruptedException {
-		// Navigate to page
-		navigateToPage("https://daominhdam.github.io/basic-form/index.html");
-		
-		// Click on button
-		driver.findElement(By.xpath("//button[text()='Click for JS Prompt']")).click();
-		alert = driver.switchTo().alert();
-		Thread.sleep(1000);
-		Assert.assertEquals(alert.getText(), "I am a JS prompt");
-		
-		// Enter value
-		alert.sendKeys(name);
-		alert.accept();
-		
-		// Verify message
-		Assert.assertEquals(driver.findElement(resultMessage).getText(), "You entered: " + name);
 
 	}
 
 	@Test
-	public void TetScript07 () {
-		// Navigate to page
-		navigateToPage("http://admin:admin@the-internet.herokuapp.com/basic_auth");
-		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(text(),\"Congratulations! You must have the proper credentials.\")]")).isDisplayed());
+	public void TC04_rightClick() {
+		// Step 01 - Navigate to http://swisnl.github.io/jQuery-contextMenu/demo.html
+		navigateToPage("http://swisnl.github.io/jQuery-contextMenu/demo.html");
+		
+		// Right click on button
+		WebElement rightclickButton = driver.findElement(By.xpath("//span[text()='right click me']"));
+		action.contextClick(rightclickButton).perform();
+		action.moveToElement(driver.findElement(By.xpath("//li//span[text()='Quit']"))).perform();
+		action.click(driver.findElement(By.xpath("//li//span[text()='Quit']"))).perform();
+		Alert alert1 = driver.switchTo().alert();
+		Assert.assertEquals(alert1.getText(), "clicked: quit");
+		alert1.accept();
 	}
-	
-	//@Test
-    public void TC_07_Drag_Drop_HTML5_Xpath() throws AWTException, Exception {
-		driver.get("https://html5demos.com/drag/");
 
+	@Test
+	public void TC05_DrapandDrop() throws InterruptedException {
+		// Step 01 - Navigate to http://demos.telerik.com/kendo-ui/dragdrop/angular
+		navigateToPage("http://demos.telerik.com/kendo-ui/dragdrop/angular");
+		WebElement elementFrom = driver.findElement(By.xpath("//div[@id='draggable']"));
+		WebElement elementTo = driver.findElement(By.xpath("//div[@id='droptarget']"));
+		
+		// Drag and drop
+		action.dragAndDrop(elementFrom, elementTo).perform();
+		Thread.sleep(3000);
+		WebElement message = driver.findElement(By.xpath("//div[text()='You did great!']"));
+		Assert.assertTrue(message.getText().equals("You did great!"));
+	}
+
+	@Test
+	public void TC_06_Drag_Drop_HTML5_Xpath() throws AWTException, Exception {
+		// Step 01 - Navigate to https://html5demos.com/drag/
+		navigateToPage("https://html5demos.com/drag/");
+
+		// Drag and drop
 		String oneXpath = "//a[@id='one']";
 		String targetXpath = "//div[@id='bin']";
-		
 		drag_the_and_drop_html5_by_xpath(oneXpath, targetXpath);
-		
+
 		Thread.sleep(2000);
 	}
-	
+
 	public void drag_the_and_drop_html5_by_xpath(String sourceLocator, String targetLocator) throws AWTException {
 
 		WebElement source = driver.findElement(By.xpath(sourceLocator));
@@ -206,7 +191,8 @@ public class Topic06_UserInteractions {
 
 		// Click and drag
 		robot.mousePress(InputEvent.BUTTON1_MASK);
-		robot.mouseMove(((sourceLocation.x - targetLocation.x) / 2) + targetLocation.x, ((sourceLocation.y - targetLocation.y) / 2) + targetLocation.y);
+		robot.mouseMove(((sourceLocation.x - targetLocation.x) / 2) + targetLocation.x,
+				((sourceLocation.y - targetLocation.y) / 2) + targetLocation.y);
 
 		// Move to final position
 		robot.mouseMove(targetLocation.x, targetLocation.y);
