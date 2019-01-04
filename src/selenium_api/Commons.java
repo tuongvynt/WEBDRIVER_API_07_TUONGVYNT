@@ -31,4 +31,14 @@ public class Commons {
 			int number = random.nextInt(99999);
 			return number;
 		}
+	 
+	 public Object clickToElementByJS(WebDriver driver, WebElement element) {
+	        try {
+	            JavascriptExecutor js = (JavascriptExecutor) driver;
+	            return js.executeScript("arguments[0].click();", element);
+	        } catch (Exception e) {
+	            e.getMessage();
+	            return null;
+	        }
+	    }
 }
