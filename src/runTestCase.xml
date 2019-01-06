@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Proect name: Selenium Advance Online 07" parallel="false">
+  <test name="Module name: Login">
+  
+  <group>
+  	
+  	<run>
+  		<include name = "user" /> 
+  		<include name = "payment" /> 
+  	</run>
+  	
+  </group>
+  
+    <classes>
+      <!-- <class name="testng.TestNG_01_Annotation"/>  package.class -->
+      <class name="testng.TestNG_02_Group_User01"/>  <!-- package.class -->
+      <class name="testng.TestNG_02_Group_User02"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
