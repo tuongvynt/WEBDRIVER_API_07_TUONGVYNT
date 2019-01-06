@@ -3,12 +3,16 @@ package testng;
 import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.BeforeClass;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 
 public class TestNG_03_DataProvider {
+	WebDriver driver;
  
   @BeforeClass
-  public void beforeClass() {
+  public void setupBrowser() {
+	  driver = new FirefoxDriver();
   }
 
   @Test(dataProvider = "dp")
