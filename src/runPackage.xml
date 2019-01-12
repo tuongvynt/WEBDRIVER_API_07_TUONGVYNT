@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="RUN PACKAGE">
+
+	<parameter name ="email" value ="nttvy03@mailinator.com" />
+  	<parameter name ="pass" value ="123123" />
+  
+   <test name="Run on Chrome">
+         <parameter name="browser" value="firefox" />
+         <packages>
+              <package name="testng"  />
+         </packages>
+     </test>
+  
+</suite> 

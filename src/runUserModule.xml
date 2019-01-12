@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Project name: Selenium Advance Online 07" parallel="tests" thread-count ="3">
+
+ <parameter name ="email" value ="nttvy01@mailinator.com" />
+ <parameter name ="pass" value ="123123" />
+  
+  <test name="Run on User Module">
+  <parameter name ="browser" value ="chrome" />
+    <classes>
+      <class name="testng.TestNG_05_Loop"/>
+    </classes>
+  </test> 
+  
+<!--   <test name="Run on CHROME"> -->
+<!--   <parameter name ="browser" value ="chrome" /> -->
+<!--     <classes> -->
+<!--       <class name="testng.TestNG_04_MultiBrowser"/> -->
+<!--     </classes> -->
+<!--   </test>  -->
+  
+<!-- <test name="Run on FIREFOX"> -->
+<!--   <parameter name ="browser" value ="firefox" /> -->
+<!--     <classes> -->
+<!--       <class name="testng.TestNG_04_MultiBrowser"/> -->
+<!--     </classes> -->
+<!--   </test>  -->
+  
+<!--   <test name="Run on IE"> -->
+<!--   <parameter name ="browser" value ="ie" /> -->
+<!--     <classes> -->
+<!--       <class name="testng.TestNG_04_MultiBrowser"/> -->
+<!--     </classes> -->
+<!--   </test>  -->
+  
+<!--   <test name="Run on CHROME HEADLESS"> -->
+<!--   <parameter name ="browser" value ="chromeheadless" /> -->
+<!--     <classes> -->
+<!--       <class name="testng.TestNG_04_MultiBrowser"/> -->
+<!--     </classes> -->
+<!--   </test> -->
+
+<!--   <test name="Module name: Login"> -->
+  
+<!--   <group> -->
+  	
+<!--   	<run> -->
+<!--   		<include name = "user" />  -->
+<!--   		<include name = "payment" />  -->
+<!--   	</run> -->
+  	
+<!--   </group> -->
+  
+<!--     <classes> -->
+<!--       <class name="testng.TestNG_01_Annotation"/>  package.class -->
+<!--       <class name="testng.TestNG_02_Group_User01"/>  package.class -->
+<!--       <class name="testng.TestNG_02_Group_User02"/> -->
+<!--     </classes> -->
+<!--   </test> Test -->
+</suite> <!-- Suite -->
