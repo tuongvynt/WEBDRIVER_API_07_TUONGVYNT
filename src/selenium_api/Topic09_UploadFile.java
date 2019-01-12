@@ -13,6 +13,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -27,6 +28,7 @@ public class Topic09_UploadFile {
 	// Variable declaration
 	WebDriver driver;
 
+
 	String rootFolder = System.getProperty("user.dir");
 	String img1 = "img1.PNG";
 	String img2 = "img2.jpg";
@@ -39,12 +41,14 @@ public class Topic09_UploadFile {
 	public void beforeClass() {
 		// Using Chrome Driver
 		System.setProperty("webdriver.chrome.driver", ".\\lib\\chromedriver.exe");
-		driver = new ChromeDriver();
+		
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--disable-quic");
+		driver = new ChromeDriver(options);
 
 		// Using Firefox Driver
-		
-		 //driver = new FirefoxDriver(); driver.manage().window().maximize();
-		 //driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		//driver = new FirefoxDriver(); driver.manage().window().maximize();
+		// driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		 
 
 		//System.setProperty("webdriver.ie.driver", ".\\lib\\IEDriverServer.exe");
@@ -201,7 +205,7 @@ public class Topic09_UploadFile {
 
 	@AfterClass
 	public void afterClass() {
-		driver.quit();
+		//driver.quit();
 	}
 
 	public void navigateToPage(String a) {

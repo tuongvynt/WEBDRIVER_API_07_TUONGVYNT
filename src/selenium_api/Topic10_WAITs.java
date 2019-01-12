@@ -48,7 +48,7 @@ public class Topic10_WAITs {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-	// @Test
+	//@Test
 	public void TestScript_01_Implicit_Wait() throws Exception {
 			navigateToPage("http://the-internet.herokuapp.com/dynamic_loading/2");
 			
@@ -62,7 +62,7 @@ public class Topic10_WAITs {
 			// Verfy Hello word is displayed 
 			Assert.assertTrue(driver.findElement(By.xpath("//div[@id='finish']/h4")).getText().equals("Hello World!"));
 		}
-
+	//@Test
 	public void TestScript_02_Explicit_Wait() {
 			navigateToPage("http://the-internet.herokuapp.com/dynamic_loading/2");
 			
@@ -78,7 +78,7 @@ public class Topic10_WAITs {
 			Assert.assertTrue(driver.findElement(By.xpath("//div[@id='finish']/h4")).getText().equals("Hello World!"));
 
 		}
-	
+	//@Test
 	public void TestScript_03_Explicit_Wait() {
 		navigateToPage("http://the-internet.herokuapp.com/dynamic_loading/2");
 		
@@ -95,7 +95,7 @@ public class Topic10_WAITs {
 
 	}
 
-	@Test
+	//@Test
 	public void TestScript_04_Explicit_Wait() {
 		
 			// Step 01 - Truy cập vào trang: http://the-internet.herokuapp.com/dynamic_loading/2
@@ -132,7 +132,7 @@ public class Topic10_WAITs {
 			
 
 		}
-
+	@Test
 		public void TestScript_05_Explicit_Wait_DTP() {
 			// Step 01 - Truy cập vào trang: http://demos.telerik.com/aspnet-ajax/ajaxloadingpanel/functionality/explicit-show-hide/defaultcs.aspx
 			navigateToPage("http://demos.telerik.com/aspnet-ajax/ajaxloadingpanel/functionality/explicit-show-hide/defaultcs.aspx");
@@ -159,10 +159,10 @@ public class Topic10_WAITs {
 			// Step 07 - Verify ngày đã chọn
 			dateSelected = driver.findElement(By.xpath("//span[@class='label']"));
 			System.out.println("dateSelected :" + dateSelected.getText());
-			Assert.assertTrue(dateSelected.getText().equals("Monday, December 24, 2018"));
+			Assert.assertTrue(dateSelected.getText().equals("Thursday, January 24, 2019"));
 
 		}
-
+		//@Test
 		public void TestScript_06_Fluent_Wait__CountDown() {
 			
 			// Step 01 - Truy cập vào trang: https://daominhdam.github.io/fluent-wait/ 
